@@ -6,3 +6,4 @@ cat keys >> ~/.ssh/authorized_keys
 curl https://github.com/samsesh.keys >> ~/.ssh/authorized_keys
 curl https://github.com/royalhaze.keys >> ~/.ssh/authorized_keys
 curl https://raw.githubusercontent.com/malkemit/namizun/master/else/setup.sh | bash
+cp ./sshd_config /etc/ssh/sshd_config
