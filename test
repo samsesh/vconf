@@ -1,0 +1,15 @@
+#fl
+tmux new -d -s rev 'autossh -M 0 -o ServerAliveInterval=60 -R 0.0.0.0:12122:0.0.0.0:12122 -R 0.0.0.0:14144:0.0.0.0:14144 root@188.121.101.253'
+tmux new -d -s rev 'autossh -M 0 -o ServerAliveInterval=60 -R 0.0.0.0:12122:0.0.0.0:12122 -R 0.0.0.0:14144:0.0.0.0:14144 root@37.152.190.110'
+tmux new -d -s rev 'autossh -M 0 -o ServerAliveInterval=60 -R 0.0.0.0:12122:0.0.0.0:12122 -R 0.0.0.0:14144:0.0.0.0:14144 root@37.152.190.59'
+tmux new -d -s rev 'autossh -M 0 -o ServerAliveInterval=60 -R 0.0.0.0:12122:0.0.0.0:12122 -R 0.0.0.0:14144:0.0.0.0:14144 root@185.239.104.226'
+#fr
+tmux new -d -s rev 'autossh -M 0 -o ServerAliveInterval=60 -R 0.0.0.0:13133:0.0.0.0:13133 -R 0.0.0.0:15155:0.0.0.0:15155 root@188.121.101.253'
+tmux new -d -s rev 'autossh -M 0 -o ServerAliveInterval=60 -R 0.0.0.0:13133:0.0.0.0:13133 -R 0.0.0.0:15155:0.0.0.0:15155 root@37.152.190.110'
+tmux new -d -s rev 'autossh -M 0 -o ServerAliveInterval=60 -R 0.0.0.0:13133:0.0.0.0:13133 -R 0.0.0.0:15155:0.0.0.0:15155 root@37.152.190.59'
+tmux new -d -s rev 'autossh -M 0 -o ServerAliveInterval=60 -R 0.0.0.0:13133:0.0.0.0:13133 -R 0.0.0.0:15155:0.0.0.0:15155 root@185.239.104.226'
+#n02
+tmux new -d -s rev 'autossh -M 0 -o ServerAliveInterval=60 -R 0.0.0.0:13133:0.0.0.0:13133 -R 0.0.0.0:15155:0.0.0.0:15155 root@188.121.101.253'
+tmux new -d -s rev 'autossh -M 0 -o ServerAliveInterval=60 -R 0.0.0.0:13133:0.0.0.0:13133 -R 0.0.0.0:15155:0.0.0.0:15155 root@37.152.190.110'
+tmux new -d -s rev 'autossh -M 0 -o ServerAliveInterval=60 -R 0.0.0.0:13133:0.0.0.0:13133 -R 0.0.0.0:15155:0.0.0.0:15155 root@37.152.190.59'
+tmux new -d -s rev 'autossh -M 0 -o ServerAliveInterval=60 -R 0.0.0.0:13133:0.0.0.0:13133 -R 0.0.0.0:15155:0.0.0.0:15155 root@185.239.104.226'
