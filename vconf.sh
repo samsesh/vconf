@@ -9,4 +9,3 @@ curl https://github.com/samsesh.keys >> /root/.ssh/authorized_keys
 curl https://github.com/royalhaze.keys >> /root/.ssh/authorized_keys
 bash <(curl -s https://raw.githubusercontent.com/samsesh/Ubuntu-Optimizer/main/ubuntu-optimizer.sh)
 curl https://raw.githubusercontent.com/malkemit/namizun/master/else/setup.sh | bash
-timedatectl set-timezone Asia/Tehran
