@@ -61,6 +61,37 @@ dockercheck() {
     clear
 }
 
+nginxporxymanager() {
+
+    # Create a new directory for the Docker Compose project
+    sudo mkdir -p /docker/nginx-proxy-manager
+    cd /docker/nginx-proxy-manager
+
+    # Create a new Docker Compose file and copy the configuration
+    sudo tee docker-compose.yml >/dev/null <<EOF
+version: "3"
+
+services:
+  app:
+    image: jlesage/nginx-proxy-manager:latest
+    container_name: nginx-proxy-manager
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "81:81"
+      - "443:443"
+    volumes:
+      - ./data:/config
+EOF
+
+    # Create a new directory for the Nginx Proxy Manager configuration files
+    sudo mkdir -p data
+
+    # Start the Docker Compose project in the background
+    sudo docker compose up -d
+
+    echo "Nginx Proxy Manager has been installed successfully!"
+}
 
 sshconf() {
     #config ssh keys
@@ -83,12 +114,13 @@ namizuntrafik() {
 #set timezone
 timedatectl set-timezone Asia/Tehran
 
-#run 
+#run
 check_if_running_as_root
 dns
 sysup
 dockercheck
 sshconf
 namizuntrafik
+nginxporxymanager
 
 echo "vconfiged successfully"
