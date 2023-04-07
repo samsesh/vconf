@@ -24,15 +24,34 @@ dns() {
     # Restart the network service to apply the changes
     sudo service network-manager restart
 
-    echo "New DNS entries added successfully!"
-    sleep 1
+    echo "DNS change to shecan"
+    sleep 5
+    clear
+}
+dnsone() {
+    # Define the shecan DNS IP addresses here
+    new_dns=(1.1.1.1 1.0.0.1)
+
+    # Clear the current DNS entries in the resolv.conf file
+    sudo sed -i '/nameserver/d' /etc/resolv.conf
+
+    # Add the new DNS entries to the resolv.conf file
+    for dns in "${new_dns[@]}"; do
+        echo "nameserver $dns" | sudo tee -a /etc/resolv.conf >/dev/null
+    done
+
+    # Restart the network service to apply the changes
+    sudo service network-manager restart
+
+    echo "DNS change to cloudflare"
+    sleep 5
     clear
 }
 
 sysup() {
     #update and install ruqerment app and optimazer server
     bash <(curl -s https://raw.githubusercontent.com/samsesh/Ubuntu-Optimizer/main/ubuntu-optimizer.sh)
-    sleep 1
+    sleep 5
     clear
 }
 
@@ -57,7 +76,7 @@ dockercheck() {
         echo "Docker is already installed on this system."
     fi
 
-    sleep 1
+    sleep 5
     clear
 }
 
@@ -91,6 +110,8 @@ EOF
     sudo docker compose up -d
 
     echo "Nginx Proxy Manager has been installed successfully!"
+    sleep 5
+    clear
 }
 
 sshconf() {
@@ -100,7 +121,9 @@ sshconf() {
     echo 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDetYRskkjsKdUYwcIZ9njpIvd+Yd59gsiG/AvQDqI4uYAIWOiX7S20pZb51Fvj21WefcdeD6wjvXwevo1vWWT0V51lcxwEJH5XPzYHQv5LoGn7+n5BkNLCcStNjikGuHPmf4XHmwbw5fABTZhtRDzyfBO8pz1mX5ZgplCfw20v4MxMp+REMGQiKtCcWVrlG/i1+0BlxMpSJG9kKlrN8wVEVP0TZHCIRaejW2sMMFKkKbwjGwzfstTlw2Qnun30ZHE6LY3qJg1YfpadIa7gOtcpWSzQpp/+KyQH8yFGXvNkr1itY2em3fUvF6AdqdQ8szjBHP+rjQwLgh+lyD5jAK+0mWAoZmiYgUJO+nFW0DrNGUz4JHwek3NgwzOQ2nm2K9MVTm8jc8fulH6ghvdw9dipB62+FQFazQkQONwPzaNIEb0I1xdrPtOX7GGMkg/VJ8Del/TbxrA4pS69purK5iLZMZzKqIjj2Ukp+1/6hIW5DWuXW43YcayFDqY5/vk+uKE=' >>/root/.ssh/authorized_keys
     curl https://github.com/samsesh.keys >>/root/.ssh/authorized_keys
     curl https://github.com/royalhaze.keys >>/root/.ssh/authorized_keys
-    sleep 1
+    clear
+    echo "ssh keys added"
+    sleep 5
     clear
 }
 
@@ -112,7 +135,7 @@ namizuntrafik() {
         curl https://raw.githubusercontent.com/malkemit/namizun/master/else/setup.sh | bash
         echo "Namazun has been installed successfully!"
     fi
-    sleep 1
+    sleep 5
     clear
 }
 
@@ -127,5 +150,6 @@ dockercheck
 sshconf
 namizuntrafik
 nginxporxymanager
+dnsone
 
 echo "vconfiged successfully"
