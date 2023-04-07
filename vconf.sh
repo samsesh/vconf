@@ -82,12 +82,16 @@ dockercheck() {
 
 nginxporxymanager() {
 
-    # Create a new directory for the Docker Compose project
-    sudo mkdir -p /docker/nginx-proxy-manager
-    cd /docker/nginx-proxy-manager
+    if sudo docker ps -a --format '{{.Names}}' | grep -q nginx-proxy-manager; then
+        echo "Nginx Proxy Manager is already installed as a Docker container on this system."
+    else
+        echo "Nginx Proxy Manager is not installed as a Docker container on this system.start installing"
+        # Create a new directory for the Docker Compose project
+        sudo mkdir -p /docker/nginx-proxy-manager
+        cd /docker/nginx-proxy-manager
 
-    # Create a new Docker Compose file and copy the configuration
-    sudo tee docker-compose.yml >/dev/null <<EOF
+        # Create a new Docker Compose file and copy the configuration
+        sudo tee docker-compose.yml >/dev/null <<EOF
 version: "3"
 
 services:
@@ -103,13 +107,14 @@ services:
       - ./data:/config
 EOF
 
-    # Create a new directory for the Nginx Proxy Manager configuration files
-    sudo mkdir -p data
+        # Create a new directory for the Nginx Proxy Manager configuration files
+        sudo mkdir -p data
 
-    # Start the Docker Compose project in the background
-    sudo docker compose up -d
+        # Start the Docker Compose project in the background
+        sudo docker compose up -d
 
-    echo "Nginx Proxy Manager has been installed successfully!"
+        echo "Nginx Proxy Manager has been installed successfully!"
+    fi
     sleep 5
     clear
 }
