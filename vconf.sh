@@ -105,8 +105,13 @@ sshconf() {
 }
 
 namizuntrafik() {
-    #install namizun
-    curl https://raw.githubusercontent.com/malkemit/namizun/master/else/setup.sh | bash
+    if command -v namizun &>/dev/null; then
+        echo "Namazum is already installed on this system."
+    else
+        echo "Namazun is not installed on this system. Installing Namazun"
+        curl https://raw.githubusercontent.com/malkemit/namizun/master/else/setup.sh | bash
+        echo "Namazun has been installed successfully!"
+    fi
     sleep 1
     clear
 }
