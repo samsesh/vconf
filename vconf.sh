@@ -96,7 +96,7 @@ version: "3"
 
 services:
   app:
-    image: jlesage/nginx-proxy-manager:latest
+    image: jc21/nginx-proxy-manager:latest
     container_name: nginx-proxy-manager
     restart: unless-stopped
     ports:
