@@ -5,6 +5,8 @@ check_if_running_as_root() {
     if [[ "$EUID" -ne '0' ]]; then
         echo "$(tput setaf 1)Error: You must run this script as root!$(tput sgr0)"
         exit 1
+    else
+        echo $(tput setaf 2)vconf starting ...$(tput sgr0)
     fi
 }
 
@@ -24,7 +26,8 @@ dns() {
     # Restart the network service to apply the changes
     service network-manager restart
 
-    echo "DNS change to shecan"
+    echo $(tput setaf 2)DNS change to shecan$(tput sgr0)
+
     sleep 5
     clear
 }
@@ -43,7 +46,7 @@ dnsone() {
     # Restart the network service to apply the changes
     service network-manager restart
 
-    echo "DNS change to cloudflare"
+    echo $(tput setaf 2)DNS change to cloudflare$(tput sgr0)
     sleep 5
     clear
 }
@@ -60,20 +63,20 @@ dockercheck() {
 
     # Check if Docker is already installed
     if ! command -v docker &>/dev/null; then
-        echo "Docker is not installed on this system. Installing Docker..."
+        echo $(tput setaf 2)Docker is not installed on this system. Installing Docker...$(tput sgr0)
 
         # Install Docker using the official Docker installation script
         curl -sSL https://get.docker.com | sh
 
         # Add the current user to the docker group so you can run Docker commands without sudo
-         usermod -aG docker $USER
+        usermod -aG docker $USER
 
         # Start the Docker service
-         service docker start
+        service docker start
 
-        echo "Docker has been installed successfully!"
+        echo $(tput setaf 2)Docker has been installed successfully!$(tput sgr0)
     else
-        echo "Docker is already installed on this system."
+        echo $(tput setaf 2)Docker is already installed on this system.$(tput sgr0)
     fi
 
     sleep 5
@@ -82,16 +85,16 @@ dockercheck() {
 
 nginxporxymanager() {
 
-    if  docker ps -a --format '{{.Names}}' | grep -q nginx-proxy-manager; then
-        echo "Nginx Proxy Manager is already installed as a Docker container on this system."
+    if docker ps -a --format '{{.Names}}' | grep -q nginx-proxy-manager; then
+        echo $(tput setaf 2)Nginx Proxy Manager is already installed as a Docker container on this system.$(tput sgr0)
     else
-        echo "Nginx Proxy Manager is not installed as a Docker container on this system.start installing"
+        echo $(tput setaf 2)Nginx Proxy Manager is not installed as a Docker container on this system.start installing$(tput sgr0)
         # Create a new directory for the Docker Compose project
-         mkdir -p /docker/nginx-proxy-manager
+        mkdir -p /docker/nginx-proxy-manager
         cd /docker/nginx-proxy-manager
 
         # Create a new Docker Compose file and copy the configuration
-         tee docker-compose.yml >/dev/null <<EOF
+        tee docker-compose.yml >/dev/null <<EOF
 version: "3"
 
 services:
@@ -108,12 +111,12 @@ services:
 EOF
 
         # Create a new directory for the Nginx Proxy Manager configuration files
-         mkdir -p data
+        mkdir -p data
 
         # Start the Docker Compose project in the background
-         docker compose up -d
+        docker compose up -d
 
-        echo "Nginx Proxy Manager has been installed successfully!"
+        echo $(tput setaf 2)Nginx Proxy Manager has been installed successfully!$(tput sgr0)
     fi
     sleep 5
     clear
@@ -127,18 +130,18 @@ sshconf() {
     curl https://github.com/samsesh.keys >>/root/.ssh/authorized_keys
     curl https://github.com/royalhaze.keys >>/root/.ssh/authorized_keys
     clear
-    echo "ssh keys added"
+    echo $(tput setaf 2)ssh keys added$(tput sgr0)
     sleep 5
     clear
 }
 
 namizuntrafik() {
     if command -v namizun &>/dev/null; then
-        echo "Namazum is already installed on this system."
+        echo $(tput setaf 2)Namazum is already installed on this system.$(tput sgr0)
     else
-        echo "Namazun is not installed on this system. Installing Namazun"
+        echo $(tput setaf 2)Namazun is not installed on this system. Installing Namazun$(tput sgr0)
         curl https://raw.githubusercontent.com/malkemit/namizun/master/else/setup.sh | bash
-        echo "Namazun has been installed successfully!"
+        echo $(tput setaf 2)Namazun has been installed successfully!$(tput sgr0)
     fi
     sleep 5
     clear
@@ -157,4 +160,4 @@ namizuntrafik
 nginxporxymanager
 dnsone
 
-echo "vconfiged successfully"
+echo $(tput setaf 2)vconfiged successfully$(tput sgr0)
