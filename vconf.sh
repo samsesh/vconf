@@ -14,15 +14,15 @@ dns() {
     new_dns=(178.22.122.100 185.51.200.2)
 
     # Clear the current DNS entries in the resolv.conf file
-    sudo sed -i '/nameserver/d' /etc/resolv.conf
+    sed -i '/nameserver/d' /etc/resolv.conf
 
     # Add the new DNS entries to the resolv.conf file
     for dns in "${new_dns[@]}"; do
-        echo "nameserver $dns" | sudo tee -a /etc/resolv.conf >/dev/null
+        echo "nameserver $dns" | tee -a /etc/resolv.conf >/dev/null
     done
 
     # Restart the network service to apply the changes
-    sudo service network-manager restart
+    service network-manager restart
 
     echo "DNS change to shecan"
     sleep 5
@@ -33,15 +33,15 @@ dnsone() {
     new_dns=(1.1.1.1 1.0.0.1)
 
     # Clear the current DNS entries in the resolv.conf file
-    sudo sed -i '/nameserver/d' /etc/resolv.conf
+    sed -i '/nameserver/d' /etc/resolv.conf
 
     # Add the new DNS entries to the resolv.conf file
     for dns in "${new_dns[@]}"; do
-        echo "nameserver $dns" | sudo tee -a /etc/resolv.conf >/dev/null
+        echo "nameserver $dns" | tee -a /etc/resolv.conf >/dev/null
     done
 
     # Restart the network service to apply the changes
-    sudo service network-manager restart
+    service network-manager restart
 
     echo "DNS change to cloudflare"
     sleep 5
@@ -66,10 +66,10 @@ dockercheck() {
         curl -sSL https://get.docker.com | sh
 
         # Add the current user to the docker group so you can run Docker commands without sudo
-        sudo usermod -aG docker $USER
+         usermod -aG docker $USER
 
         # Start the Docker service
-        sudo service docker start
+         service docker start
 
         echo "Docker has been installed successfully!"
     else
@@ -82,16 +82,16 @@ dockercheck() {
 
 nginxporxymanager() {
 
-    if sudo docker ps -a --format '{{.Names}}' | grep -q nginx-proxy-manager; then
+    if  docker ps -a --format '{{.Names}}' | grep -q nginx-proxy-manager; then
         echo "Nginx Proxy Manager is already installed as a Docker container on this system."
     else
         echo "Nginx Proxy Manager is not installed as a Docker container on this system.start installing"
         # Create a new directory for the Docker Compose project
-        sudo mkdir -p /docker/nginx-proxy-manager
+         mkdir -p /docker/nginx-proxy-manager
         cd /docker/nginx-proxy-manager
 
         # Create a new Docker Compose file and copy the configuration
-        sudo tee docker-compose.yml >/dev/null <<EOF
+         tee docker-compose.yml >/dev/null <<EOF
 version: "3"
 
 services:
@@ -108,10 +108,10 @@ services:
 EOF
 
         # Create a new directory for the Nginx Proxy Manager configuration files
-        sudo mkdir -p data
+         mkdir -p data
 
         # Start the Docker Compose project in the background
-        sudo docker compose up -d
+         docker compose up -d
 
         echo "Nginx Proxy Manager has been installed successfully!"
     fi
