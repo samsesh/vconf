@@ -152,6 +152,7 @@ timedatectl set-timezone Asia/Tehran
 
 #run
 check_if_running_as_root
+sshconf
 sysup
 dns
 dockercheck
