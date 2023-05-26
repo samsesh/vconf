@@ -157,7 +157,7 @@ sysup
 dns
 dockercheck
 sshconf
-namizuntrafik
+#namizuntrafik
 nginxporxymanager
 dnsone
 
