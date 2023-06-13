@@ -54,6 +54,7 @@ dnsone() {
 sysup() {
     #update and install ruqerment app and optimazer server
     bash <(curl -s https://raw.githubusercontent.com/samsesh/Ubuntu-Optimizer/main/ubuntu-optimizer.sh)
+    sudo bash <(curl -fsSL https://github.com/samsesh/gost/raw/master/install.sh) --install
     sleep 5
     clear
 }
