@@ -54,11 +54,20 @@ dnsone() {
 sysup() {
     #update and install ruqerment app and optimazer server
     bash <(curl -s https://raw.githubusercontent.com/samsesh/Ubuntu-Optimizer/main/ubuntu-optimizer.sh)
-    bash <(curl -fsSL https://github.com/samsesh/gost/raw/master/install.sh) --install
     sleep 5
     clear
 }
 
+gostinstall() {
+    if ! command -v gost &>/dev/null; then
+        echo $(tput setaf 2)gost is not installed on this system. Installing Docker...$(tput sgr0)
+        bash <(curl -fsSL https://github.com/samsesh/gost/raw/master/install.sh) --install
+
+        echo $(tput setaf 2)gost has been installed successfully!$(tput sgr0)
+    else
+        echo $(tput setaf 2)gost is already installed on this system.$(tput sgr0)
+    fi
+}
 dockercheck() {
     #install docker
 
