@@ -84,6 +84,21 @@ dockercheck() {
     clear
 }
 
+proxydocker(){
+
+    if docker ps -a --format '{{.Names}}' | grep -q proxydocker; then
+        echo $(tput setaf 2)proxydocker is already installed as a Docker container on this system.$(tput sgr0)
+    else
+        echo $(tput setaf 2)proxydocker is not installed as a Docker container on this system.start installing$(tput sgr0)
+        docker run --restart unless-stopped -d \
+        -p "3128:3128/tcp" \
+        -p "1080:1080/tcp" \
+        -e "PROXY_LOGIN=vipvpn" \
+        -e "PROXY_PASSWORD=vpnvip" \
+        -e "PRIMARY_RESOLVER=2001:4860:4860::8888" \
+        --name proxydocker \
+        tarampampam/3proxy:latest
+}
 nginxporxymanager() {
 
     if docker ps -a --format '{{.Names}}' | grep -q nginx-proxy-manager; then
@@ -159,6 +174,7 @@ dns
 dockercheck
 sshconf
 #namizuntrafik
+proxydocker
 nginxporxymanager
 dnsone
 
