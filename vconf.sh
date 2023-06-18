@@ -60,7 +60,7 @@ sysup() {
 
 gostinstall() {
     if ! command -v gost &>/dev/null; then
-        echo $(tput setaf 2)gost is not installed on this system. Installing Docker...$(tput sgr0)
+        echo $(tput setaf 2)gost is not installed on this system. Installing Gost...$(tput sgr0)
         bash <(curl -fsSL https://github.com/samsesh/gost/raw/master/install.sh) --install
 
         echo $(tput setaf 2)gost has been installed successfully!$(tput sgr0)
