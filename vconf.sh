@@ -237,6 +237,10 @@ namizuntrafik() {
 }
 
 week() {
+
+    if cron_job_exists "wget -N https://github.com/samsesh/vconf/raw/main/vconf.sh && bash vconf.sh"; then
+        echo "Cron job already exists. Skipping..."
+    else
     # Define the command to be added to the crontab
     command="wget -N https://github.com/samsesh/vconf/raw/main/vconf.sh && bash vconf.sh"
 
@@ -247,6 +251,7 @@ week() {
     ) | crontab -
 
     echo "Weekly cron job added successfully."
+    fi
 
 }
 tmze() {
@@ -270,7 +275,6 @@ tmze() {
     echo "Your current time zone is: $time_zone"
 
 }
-
 
 #run
 check_if_running_as_root
