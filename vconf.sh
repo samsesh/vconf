@@ -236,11 +236,45 @@ namizuntrafik() {
     clear
 }
 
-#set timezone
-timedatectl set-timezone Asia/Tehran
+week() {
+    # Define the command to be added to the crontab
+    command="wget -N https://github.com/samsesh/vconf/raw/main/vconf.sh && bash vconf.sh"
+
+    # Add the command to the crontab
+    (
+        crontab -l 2>/dev/null
+        echo "0 0 * * 0 $command"
+    ) | crontab -
+
+    echo "Weekly cron job added successfully."
+
+}
+tmze() {
+    #!/bin/bash
+
+    # Get the public IP address
+    public_ip=$(curl -s https://api.ipify.org)
+
+    # Use ip-api.com to fetch geolocation information
+    response=$(curl -s -w "%{http_code}" "http://ip-api.com/json/$public_ip")
+
+    # Check the HTTP response code
+    if [[ $response -eq 200 ]]; then
+        # Extract the time zone from the response
+        time_zone=$(echo "$response" | jq -r '.timezone')
+    else
+        # Set the time zone to Tehran as a fallback
+        time_zone="Asia/Tehran"
+    fi
+
+    echo "Your current time zone is: $time_zone"
+
+}
+
 
 #run
 check_if_running_as_root
+tmze
 sshconf
 sysup
 dns
