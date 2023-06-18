@@ -278,17 +278,32 @@ tmze() {
 
 #run
 check_if_running_as_root
+sleep 1
 tmze
+sleep 1
 sshconf
+sleep 1
 sysup
+sleep 1
 dns
+sleep 1
 gostinstall
+sleep 1
 bbr
+sleep 1
 dockercheck
+sleep 1
 sshconf
+sleep 1
 #namizuntrafik
+# sleep 1
 proxydocker
+sleep 1
 nginxporxymanager
+sleep 1
 dnsone
+sleep 1
+week
+sleep 1
 
 echo $(tput setaf 2)vconfiged successfully$(tput sgr0)
