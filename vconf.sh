@@ -84,19 +84,19 @@ dockercheck() {
     clear
 }
 
-proxydocker() { 
+proxydocker() {
     if docker ps -a --format '{{.Names}}' | grep -q proxydocker; then
         echo "$(tput setaf 2)proxydocker is already installed as a Docker container on this system.$(tput sgr0)"
     else
         echo "$(tput setaf 2)proxydocker is not installed as a Docker container on this system.start installing$(tput sgr0)"
         docker run --restart unless-stopped -d \
-        -p "3128:3128/tcp" \
-        -p "1080:1080/tcp" \
-        -e "PROXY_LOGIN=vipvpn" \
-        -e "PROXY_PASSWORD=vpnvip" \
-        -e "PRIMARY_RESOLVER=2001:4860:4860::8888" \
-        --name proxydocker \
-        tarampampam/3proxy:latest
+            -p "3128:3128/tcp" \
+            -p "1080:1080/tcp" \
+            -e "PROXY_LOGIN=vipvpn" \
+            -e "PROXY_PASSWORD=vpnvip" \
+            -e "PRIMARY_RESOLVER=2001:4860:4860::8888" \
+            --name proxydocker \
+            tarampampam/3proxy:latest
     fi
 }
 nginxporxymanager() {
@@ -150,7 +150,71 @@ sshconf() {
     sleep 5
     clear
 }
-
+bbr() {
+    tput setaf 7
+    tput setab 4
+    tput bold
+    printf '%35s%s%-20s\n' "TCP Tweaker 1.0"
+    tput sgr0
+    if [[ $(grep -c "^#PH56" /etc/sysctl.conf) -eq 1 ]]; then
+        echo ""
+        echo "TCP Tweaker network settings have already been added to the system!"
+        echo ""
+    else
+        echo ""
+        echo "This is an experimental script. Use at your own risk!"
+        echo "This script will change some network settings"
+        echo "to reduce latency and improve speed."
+        echo ""
+        echo ""
+        echo "Modifying the following settings:"
+        echo " " >>/etc/sysctl.conf
+        echo "#PH56" >>/etc/sysctl.conf
+        sed -i '/fs.file-max/d' /etc/sysctl.conf
+        sed -i '/fs.inotify.max_user_instances/d' /etc/sysctl.conf
+        sed -i '/net.ipv4.tcp_tw_reuse/d' /etc/sysctl.conf
+        sed -i '/net.ipv4.ip_local_port_range/d' /etc/sysctl.conf
+        sed -i '/net.ipv4.tcp_rmem/d' /etc/sysctl.conf
+        sed -i '/net.ipv4.tcp_wmem/d' /etc/sysctl.conf
+        sed -i '/net.core.somaxconn/d' /etc/sysctl.conf
+        sed -i '/net.core.rmem_max/d' /etc/sysctl.conf
+        sed -i '/net.core.wmem_max/d' /etc/sysctl.conf
+        sed -i '/net.core.wmem_default/d' /etc/sysctl.conf
+        sed -i '/net.ipv4.tcp_max_tw_buckets/d' /etc/sysctl.conf
+        sed -i '/net.ipv4.tcp_max_syn_backlog/d' /etc/sysctl.conf
+        sed -i '/net.core.netdev_max_backlog/d' /etc/sysctl.conf
+        sed -i '/net.ipv4.tcp_slow_start_after_idle/d' /etc/sysctl.conf
+        sed -i '/net.ipv4.ip_forward/d' /etc/sysctl.conf
+        echo "fs.file-max = 1000000
+net.ipv4.tcp_window_scaling = 1
+net.ipv4.tcp_congestion_control = bbr
+fs.inotify.max_user_instances = 8192
+net.core.default_qdisc = fq
+net.ipv4.tcp_tw_reuse = 1
+net.ipv4.ip_local_port_range = 1024 65535
+net.ipv4.tcp_rmem = 16384 262144 8388608
+net.ipv4.tcp_wmem = 32768 524288 16777216
+net.core.somaxconn = 8192
+net.core.rmem_max = 16777216
+net.core.wmem_max = 16777216
+net.core.wmem_default = 2097152
+net.ipv4.tcp_max_tw_buckets = 5000
+net.ipv4.tcp_max_syn_backlog = 10240
+net.core.netdev_max_backlog = 10240
+net.ipv4.tcp_slow_start_after_idle = 0
+net.ipv4.tcp_low_latency = 1
+# forward ipv4
+net.ipv4.ip_forward = 1" >>/etc/sysctl.conf
+        sysctl -p
+        echo "*               soft    nofile           1000000
+*               hard    nofile          1000000" >/etc/security/limits.conf
+        echo ""
+        sysctl -p /etc/sysctl.conf
+        echo ""
+        echo "TCP Tweaker network settings have been added successfully."
+        echo ""
+    fi
+}
 namizuntrafik() {
     if command -v namizun &>/dev/null; then
         echo $(tput setaf 2)Namazum is already installed on this system.$(tput sgr0)
@@ -171,6 +235,7 @@ check_if_running_as_root
 sshconf
 sysup
 dns
+bbr
 dockercheck
 sshconf
 #namizuntrafik
